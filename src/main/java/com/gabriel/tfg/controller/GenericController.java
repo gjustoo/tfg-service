@@ -1,7 +1,13 @@
 package com.gabriel.tfg.controller;
 
-public class GenericController {
+public abstract class GenericController<T> {
+
+
+
 
     
     
+    
+    
+
 }
