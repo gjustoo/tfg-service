@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,20 +16,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Builder
 @Entity
-public class Post {
+public class ApiConnection extends GenericEntity<ApiConnection> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private String body;
-    private String source;
+    private String clientSecretToken;
 
-    private String url;
-
-    private int likes;
+    private String clientIdToken;
 
     @ManyToOne
     private Platform platform;

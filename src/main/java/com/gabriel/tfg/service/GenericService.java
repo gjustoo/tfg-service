@@ -2,6 +2,8 @@ package com.gabriel.tfg.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 public interface GenericService<T> {
     
     
@@ -9,11 +11,11 @@ public interface GenericService<T> {
 
     T save(T entity);
 
-    T findById(long id);
+    T get(Long id);
 
     void delete(T entity);
 
-    void deleteById(long id);
+    void delete(Long id);
 
-    long count();
+    T update(T entity);
 }

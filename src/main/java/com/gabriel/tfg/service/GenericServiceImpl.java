@@ -2,14 +2,16 @@ package com.gabriel.tfg.service;
 
 import java.util.List;
 
+import com.gabriel.tfg.entity.GenericEntity;
 import com.gabriel.tfg.repository.GenericRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+public abstract class GenericServiceImpl<T extends GenericEntity<T>> implements GenericService<T> {
 
-public class GenericServiceImpl<T> implements GenericService<T> {
+    private final GenericRepository<T> repo;
 
-    @Autowired
-    private GenericRepository<T> repo;
+    public GenericServiceImpl(GenericRepository<T> repo) {
+        this.repo = repo;
+    }
 
     @Override
     public List<T> findAll() {
@@ -22,9 +24,8 @@ public class GenericServiceImpl<T> implements GenericService<T> {
     }
 
     @Override
-    public T findById(long id) {
-        // TODO Auto-generated method stub
-        return repo.findById(id);
+    public T get(Long id) {
+        return repo.findOneById(id);
     }
 
     @Override
@@ -34,14 +35,13 @@ public class GenericServiceImpl<T> implements GenericService<T> {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void delete(Long id) {
         repo.deleteById(id);
     }
 
     @Override
-    public long count() {
-
-        return 0;
+    public T update(T entity) {
+        return repo.save(entity);
     }
 
 }

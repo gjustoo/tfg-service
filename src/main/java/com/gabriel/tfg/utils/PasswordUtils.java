@@ -7,29 +7,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class PasswordUtils {
 
     public static final int STRENGTH = 10;
-    private BCryptPasswordEncoder encoder;
+    private static final BCryptPasswordEncoder ENCODER = new BCryptPasswordEncoder(PasswordUtils.STRENGTH,
+            new SecureRandom());
 
-    public PasswordUtils() {
-        this.encoder = new BCryptPasswordEncoder(PasswordUtils.STRENGTH, new SecureRandom());
+    public static boolean test(String password, String rawPassword) {
+
+        return ENCODER.matches(rawPassword, password);
     }
 
-    public static void main(String[] args) {
-
-        BCryptPasswordEncoder coder = new BCryptPasswordEncoder(PasswordUtils.STRENGTH, new SecureRandom());
-        String encodedPassword = coder.encode("hola como estas");
-
-        System.out.println(encodedPassword);
-
-        System.out.println();
-
-    }
-
-    public boolean test(String password, String rawPassword) {
-        return this.encoder.matches(rawPassword, password);
-    }
-
-    public String hash(String rawPassword) {
-        return this.encoder.encode(rawPassword);
+    public static String hash(String rawPassword) {
+        return ENCODER.encode(rawPassword);
     }
 
 }
