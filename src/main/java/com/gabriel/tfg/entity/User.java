@@ -37,6 +37,9 @@ public class User extends GenericEntity<User> {
     private List<User> following;
 
     @ManyToMany
+    private List<FeedNode> followingNodes;
+
+    @ManyToMany
     private List<Post> likedPosts;
 
 }

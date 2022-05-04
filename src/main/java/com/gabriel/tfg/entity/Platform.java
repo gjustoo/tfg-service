@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Builder
 @Entity
-public class Platform extends GenericEntity<Platform>{
+public class Platform extends GenericEntity<Platform> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +26,18 @@ public class Platform extends GenericEntity<Platform>{
     private String name;
 
     private String url;
+
+    private String apiKey;
+
+    private String apiKeySecret;
+
+    private String bearerToken;
+
+    private String accessToken;
+
+    private String accessTokenSecret;
+
+    private String clientId;
+
+    private String clientSecret;
 }

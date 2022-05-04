@@ -18,15 +18,15 @@ import lombok.Setter;
 @Getter
 @Builder
 @Entity
-public class ApiConnection extends GenericEntity<ApiConnection> {
+public class FeedNode extends GenericEntity<FeedNode> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String clientSecretToken;
+    private String uid;
 
-    private String clientIdToken;
+    private String name;
 
     @ManyToOne
     private Platform platform;

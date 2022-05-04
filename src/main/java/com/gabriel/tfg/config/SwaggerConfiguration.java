@@ -27,10 +27,10 @@ public class SwaggerConfiguration {
 
     private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
-                .title("Swagger By Bhutan IO")
+                .title("TFG Swagger documentation")
                 .version("1.0")
-                .description("Some description here..")
-                .contact(new Contact("Bhutan IO", "https://bhutanio.com", "abcde@email.com"))
+                .description("Documentacion de los Endpoint del back end del tfg")
+                .contact(new Contact("Gabriel Justo", "https://gjustoo.dev", "gabrijusto113@gmail.com"))
                 .license("Apache License Version 2.0")
                 .build();
     }

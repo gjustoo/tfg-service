@@ -1,5 +1,7 @@
 package com.gabriel.tfg.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,13 +12,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Getter
 @Entity
-public class Post {
+public class Post extends GenericEntity<Post> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +30,13 @@ public class Post {
     private String body;
     private String source;
 
-    private String url;
+    private String mediaUrl;
+
+    private LocalDateTime postedDate;
 
     private int likes;
 
     @ManyToOne
-    private Platform platform;
+    private FeedNode feedNode;
 
 }
