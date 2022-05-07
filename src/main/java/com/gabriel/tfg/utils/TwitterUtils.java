@@ -20,24 +20,14 @@ import org.json.JSONObject;
 
 public class TwitterUtils {
 
-    // @Scheduled(fixedRate = 365 * 24 * 60 * 60 * 1000)
-    // public void main() {
-
-    // Platform twitter = platformService.getByName("twitter");
-    // List<FeedNode> feeds = feedNodeService.getAllByPlatform(twitter);
-    // for (FeedNode feedNode : feeds) {
-    // getFeedFromUser(feedNode);
-    // }
-    // }
-
-    public static List<Post> getFeedFromUser(FeedNode feedNode) {
+    public static List<Post> getFeedFromUser(FeedNode feedNode, LocalDateTime start, LocalDateTime end) {
 
         System.out.println(
                 "Getting feed from : " + feedNode.getUid() + " platform : " + feedNode.getPlatform().getName());
         String userId = feedNode.getUid();
 
-        LocalDateTime endTime = LocalDateTime.now().withSecond(0).withNano(0);
-        LocalDateTime startTime = endTime.minusHours(500);
+        LocalDateTime endTime = end;
+        LocalDateTime startTime = start;
 
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
         String startTimeFormatted = startTime.format(format);
@@ -59,8 +49,7 @@ public class TwitterUtils {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
-
-        System.out.println(posts);
+        System.out.println("Found " + posts.size() + " posts");
         return posts;
     }
 
@@ -131,7 +120,7 @@ public class TwitterUtils {
         return mediaByKeys;
     }
 
-    public static FeedNode getTwitterFeedByUserName(String userName, Platform twitter) {
+    public static FeedNode getFeedNodeFromUsername(String userName, Platform twitter) {
 
         FeedNode userFeed = new FeedNode();
 

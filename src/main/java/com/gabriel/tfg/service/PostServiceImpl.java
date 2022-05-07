@@ -1,5 +1,6 @@
 package com.gabriel.tfg.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.gabriel.tfg.entity.FeedNode;
@@ -56,6 +57,13 @@ public class PostServiceImpl extends GenericServiceImpl<Post> implements PostSer
         for (Post post : posts) {
             insertOrUpdate(post);
         }
+    }
+
+    @Override
+    public List<Post> findAllBetweenDatesAndFeedNodeIn(LocalDateTime start, LocalDateTime end, List<FeedNode> nodes) {
+
+        return this.repository.findAllByPostedDateBetweenAndFeedNodeIn(start, end, nodes);
+
     }
 
 }

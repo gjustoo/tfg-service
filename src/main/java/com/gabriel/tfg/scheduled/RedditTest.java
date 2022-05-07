@@ -1,23 +1,23 @@
 package com.gabriel.tfg.scheduled;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.gabriel.tfg.entity.FeedNode;
 import com.gabriel.tfg.entity.Platform;
-import com.gabriel.tfg.entity.Post;
 import com.gabriel.tfg.service.FeedNodeService;
 import com.gabriel.tfg.service.PlatformService;
 import com.gabriel.tfg.service.PostService;
-import com.gabriel.tfg.utils.TwitterUtils;
+import com.gabriel.tfg.utils.RedditUtils;
+import com.gabriel.tfg.utils.RedditUtils.FILTER;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @EnableScheduling
-public class TwitterTest {
+public class RedditTest {
 
     @Autowired
     private FeedNodeService feedNodeService;
@@ -31,20 +31,15 @@ public class TwitterTest {
     // @Scheduled(fixedRate = 365 * 24 * 60 * 60 * 1000)
     public void main() {
 
-        Platform twitter = platformService.getByName("twitter");
-        // FeedNode newUser = TwitterUtils.getTwitterFeedByUserName("adria2208_",
-        // twitter);
+        Platform reddit = platformService.getByName("reddit");
 
-        // feedNodeService.save(newUser);
+        List<FeedNode> feeds = feedNodeService.getAllByPlatform(reddit);
 
-        // List<FeedNode> feeds = feedNodeService.getAllByPlatform(twitter);
+        for (FeedNode feedNode : feeds) {
 
-        // List<Post> posts = new ArrayList();
-        // for (FeedNode feedNode : feeds) {
-        //     posts = TwitterUtils.getFeedFromUser(feedNode);
-        // }
+            postService.insertOrUpdateAll(RedditUtils.getPosts(feedNode, FILTER.MONTH));
 
-        // postService.insertOrUpdateAll(posts);
+        }
 
     }
 

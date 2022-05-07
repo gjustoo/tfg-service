@@ -63,21 +63,27 @@ public class FeedNodeController extends GenericController<FeedNode> {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "SUCCESS", response = FeedNode.class),
             @ApiResponse(code = 500, message = "System error") })
-    @PostMapping("/userNode")
+    @PostMapping("/new")
     public ResponseEntity<Object> createFeedByUsername(
-            @RequestParam(required = true) String username,
+            @RequestParam(required = true) String uid,
             @RequestParam(required = true) Long platformId) {
 
         Platform platform = platformService.get(platformId);
-
+        FeedNode feedNode = new FeedNode();
         if (platform == null) {
             return ResponseEntity.badRequest().body("Platform not found");
         }
 
-        FeedNode feedNode = TwitterUtils.getTwitterFeedByUserName(username, platform);
+        if (platform.getName().equalsIgnoreCase("twitter")) {
+            feedNode = TwitterUtils.getFeedNodeFromUsername(uid, platform);
+        } else {
+            feedNode.setName(uid);
+            feedNode.setUid(uid);
+            feedNode.setPlatform(platform);
+        }
 
         if (feedNodeService.feedNodeExists(feedNode)) {
-            return ResponseEntity.badRequest().body("Email already exists");
+            return ResponseEntity.badRequest().body("uid already exists");
         } else {
             this.feedNodeService.save(feedNode);
             return ResponseEntity.ok("ok");

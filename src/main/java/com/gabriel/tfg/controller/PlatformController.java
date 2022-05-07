@@ -3,6 +3,7 @@ package com.gabriel.tfg.controller;
 import com.gabriel.tfg.entity.Platform;
 import com.gabriel.tfg.entity.User;
 import com.gabriel.tfg.service.PlatformService;
+import com.gabriel.tfg.utils.RedditUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import io.swagger.annotations.ApiResponses;
 public class PlatformController extends GenericController<Platform> {
 
     @Autowired
-    private PlatformService userService;
+    private PlatformService platformService;
 
     public PlatformController(PlatformService service) {
         super(service);
@@ -39,12 +40,27 @@ public class PlatformController extends GenericController<Platform> {
 
         Platform user = Platform.builder().name(name).url(url).build();
 
-        if (userService.platformExists(name)) {
+        if (platformService.platformExists(name)) {
             return ResponseEntity.badRequest().body("Email already exists");
         } else {
-            this.userService.save(user);
+            this.platformService.save(user);
             return ResponseEntity.ok("ok");
         }
+
+    }
+
+    @ApiOperation(value = "TEST", httpMethod = "POST", nickname = "")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "SUCCESS", response = User.class),
+            @ApiResponse(code = 500, message = "System error") })
+    @PostMapping("/test")
+    public ResponseEntity<Object> test() {
+
+        Platform platform = platformService.getByName("reddit");
+
+        String token = RedditUtils.getAuthToken(platform);
+
+        return ResponseEntity.ok(token);
 
     }
 

@@ -1,7 +1,10 @@
 package com.gabriel.tfg.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,5 +44,17 @@ public class User extends GenericEntity<User> {
 
     @ManyToMany
     private List<Post> likedPosts;
+
+    public List<FeedNode> getAllNodes() {
+        Set<FeedNode> result = new HashSet();
+
+        result.addAll(followingNodes);
+
+        for (User user : following) {
+            result.addAll(user.followingNodes);
+        }
+
+        return new ArrayList<FeedNode>(result);
+    }
 
 }

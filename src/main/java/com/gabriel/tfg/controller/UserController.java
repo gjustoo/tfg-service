@@ -34,7 +34,7 @@ public class UserController extends GenericController<User> {
         super(service);
     }
 
-    @ApiOperation(value = "Get ebar interval data from dates, res: 30 min", httpMethod = "POST", nickname = "EBAR_DATA")
+    @ApiOperation(value = "Creates user", httpMethod = "POST", nickname = "NEW_USER")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "SUCCESS", response = User.class),
             @ApiResponse(code = 500, message = "System error") })

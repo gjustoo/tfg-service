@@ -1,5 +1,6 @@
 package com.gabriel.tfg.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.gabriel.tfg.entity.FeedNode;
@@ -9,9 +10,12 @@ public interface PostService extends GenericService<Post> {
 
     boolean postExists(Post post);
 
-    public List<Post> getAllByPlatform(FeedNode feedNode);
+    List<Post> getAllByPlatform(FeedNode feedNode);
 
-    public void insertOrUpdateAll(List<Post> posts);
+    void insertOrUpdateAll(List<Post> posts);
 
     void insertOrUpdate(Post post);
+
+    List<Post> findAllBetweenDatesAndFeedNodeIn(LocalDateTime start, LocalDateTime end, List<FeedNode> nodes);
+
 }

@@ -1,5 +1,6 @@
 package com.gabriel.tfg.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.gabriel.tfg.entity.FeedNode;
@@ -13,5 +14,7 @@ public interface PostRepository extends GenericRepository<Post> {
     Post findOneByMediaUrl(String mediaUrl);
 
     List<Post> findAllByFeedNode(FeedNode feedNode);
+
+    List<Post> findAllByPostedDateBetweenAndFeedNodeIn(LocalDateTime start, LocalDateTime end, List<FeedNode> nodes);
 
 }
