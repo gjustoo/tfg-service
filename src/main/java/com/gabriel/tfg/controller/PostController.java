@@ -62,10 +62,10 @@ public class PostController extends GenericController<Post> {
 
         for (FeedNode feedNode : feedNodes) {
             if (feedNode.getPlatform().getName().equalsIgnoreCase("reddit")) {
-                posts.addAll(RedditUtils.getPosts(feedNode, FILTER.DAY));
+                posts.addAll(RedditUtils.getPosts(feedNode, FILTER.MONTH));
             } else {
                 posts.addAll(
-                        TwitterUtils.getFeedFromUser(feedNode, LocalDateTime.now().minusDays(2), LocalDateTime.now()));
+                        TwitterUtils.getFeedFromUser(feedNode, LocalDateTime.now().minusDays(30), LocalDateTime.now()));
             }
         }
 

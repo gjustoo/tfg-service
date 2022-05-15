@@ -10,6 +10,7 @@ import java.util.Map;
 import com.gabriel.tfg.entity.FeedNode;
 import com.gabriel.tfg.entity.Platform;
 import com.gabriel.tfg.entity.Post;
+import com.gabriel.tfg.entity.constants.MEDIA_TYPE;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -40,7 +41,7 @@ public class TwitterUtils {
                     + "/users/" + userId + "/tweets?start_time=" + startTimeFormatted
                     + "&end_time="
                     + endTimeFormatted
-                    + "&expansions=attachments.media_keys&tweet.fields=attachments,author_id,created_at&media.fields=url,type&max_results=100";
+                    + "&expansions=attachments.media_keys&tweet.fields=attachments,author_id,created_at&media.fields=url,type,width,height&max_results=100";
             response = Unirest.get(url)
                     .header("Authorization",
                             "Bearer " + feedNode.getPlatform().getBearerToken())
@@ -84,6 +85,8 @@ public class TwitterUtils {
                     if (urlsByMediaKeys.containsKey(keys.get(j))) {
 
                         String mediaUrl = urlsByMediaKeys.get(keys.get(j)).getString("url");
+                        // String width = urlsByMediaKeys.get(keys.get(j)).get("width");
+                        // String height = urlsByMediaKeys.get(keys.get(j)).getString("height");
 
                         Post post = new Post();
                         post.setFeedNode(feedNode);
@@ -93,6 +96,7 @@ public class TwitterUtils {
                         post.setTitle(title);
                         post.setLikes(0);
                         post.setPostedDate(createdTime);
+                        post.setType(MEDIA_TYPE.IMAGE);
                         posts.add(post);
                     }
                 }

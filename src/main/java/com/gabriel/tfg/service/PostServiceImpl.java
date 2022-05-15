@@ -35,8 +35,8 @@ public class PostServiceImpl extends GenericServiceImpl<Post> implements PostSer
     @Override
     public void insertOrUpdate(Post post) {
 
+        post.setMediaUrl(post.getMediaUrl().replace(".gifv", ".gif"));
         Post postToUpdate = repository.findOneByMediaUrl(post.getMediaUrl());
-
         if (postToUpdate != null) {
 
             postToUpdate.setBody(post.getBody());

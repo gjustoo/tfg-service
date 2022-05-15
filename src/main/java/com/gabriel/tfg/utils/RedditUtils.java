@@ -5,10 +5,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.gabriel.tfg.entity.FeedNode;
 import com.gabriel.tfg.entity.Platform;
 import com.gabriel.tfg.entity.Post;
+import com.gabriel.tfg.entity.constants.MEDIA_TYPE;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -88,17 +91,32 @@ public class RedditUtils {
             post.setTitle(rawPost.getString("title"));
             post.setFeedNode(reddit);
             post.setSource("https://www.reddit.com" + rawPost.getString("permalink"));
-            if (rawPost.has("media") && !rawPost.isNull("media")) {
-                String mediaUrl = "";
-                if (rawPost.getJSONObject("media").has("reddit_video")) {
-                    mediaUrl = rawPost.getJSONObject("media").getJSONObject("reddit_video")
-                            .getString("fallback_url");
-                } else {
-                    mediaUrl = rawPost.getJSONObject("secure_media_embed").getString("media_domain_url");
-                }
-                post.setMediaUrl(mediaUrl);
+            rawPost.remove("all_awardings");
+            rawPost.remove("thumbnail");
+
+
+            Pattern videoPattern = Pattern.compile("(http(s?):).*(mp4)\"");
+            Matcher videoMatch = videoPattern.matcher(rawPost.toString());
+            String videoUrl = (videoMatch.matches())?  videoMatch.group():"";
+
+            Pattern gifPattern = Pattern.compile("(http(s?):).*(gif)\"");
+            Matcher gifMatch = gifPattern.matcher(rawPost.toString());
+            String gifUrl = (gifMatch.matches())? gifMatch.group():"";
+
+            Pattern imgPattern = Pattern.compile("(http(s?):).*(jpg|png)\"");
+            Matcher imgMatch = imgPattern.matcher(rawPost.toString());
+            String imgURL = (imgMatch.matches())? imgMatch.group():"";
+
+            if (!videoUrl.isEmpty()) {
+                post.setMediaUrl(videoUrl);
+                post.setType(MEDIA_TYPE.VIDEO);
+            } else if (!gifUrl.isEmpty()) {
+                post.setMediaUrl(gifUrl);
+                post.setType(MEDIA_TYPE.GIF);
             } else {
-                post.setMediaUrl(rawPost.getString("url"));
+
+                post.setMediaUrl(imgURL);
+                post.setType(MEDIA_TYPE.IMAGE);
             }
 
             LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochSecond(rawPost.getLong("created_utc")),

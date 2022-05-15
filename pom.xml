@@ -70,7 +70,13 @@
 			<artifactId>unirest-java</artifactId>
 			<version>1.4.9</version>
 		</dependency>
-	</dependencies>
+	
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-webmvc</artifactId>
+     <version>5.1.9.RELEASE</version>
+   </dependency>
+ </dependencies>
 
 	<build>
 		<plugins>
