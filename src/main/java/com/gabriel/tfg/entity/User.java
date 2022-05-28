@@ -1,9 +1,11 @@
 package com.gabriel.tfg.entity;
 
 import java.time.LocalDateTime;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -11,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import org.json.JSONObject;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,6 +59,19 @@ public class User extends GenericEntity<User> {
         }
 
         return new ArrayList<FeedNode>(result);
+    }
+
+    public JSONObject getJson() {
+        JSONObject result = new JSONObject();
+        result.put("username", this.name);
+        result.put("email", this.email);
+        result.put("creation_date", this.creationDate);
+        result.put("formatted_date", this.creationDate.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault()));
+        result.put("users_following", this.following.size());
+        result.put("pages_following", this.followingNodes.size());
+        result.put("liked_posts_count", this.likedPosts.size());
+        return result;
+
     }
 
 }

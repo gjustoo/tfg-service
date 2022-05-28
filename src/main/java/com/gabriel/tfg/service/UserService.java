@@ -8,4 +8,6 @@ public interface UserService extends GenericService<User> {
 
     User findByUsername(String name);
 
+    User findByUsernameOrEmail(String username);
+
 }

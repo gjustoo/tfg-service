@@ -99,4 +99,19 @@ public class PostController extends GenericController<Post> {
 
     }
 
+    @ApiOperation(value = "Get feed post from user", httpMethod = "POST", nickname = "GET_FEED_POSTS")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "SUCCESS", response = Post.class),
+            @ApiResponse(code = 500, message = "System error") })
+    @PostMapping("/liked/{username}")
+    public ResponseEntity<Object> getLikedFromUser(@PathVariable String username) {
+
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("User does not exists");
+        }
+        return ResponseEntity.ok(user.getLikedPosts());
+
+    }
+
 }

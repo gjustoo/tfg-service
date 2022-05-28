@@ -28,4 +28,13 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         return repository.findOneByName(username);
     }
 
+
+    @Override
+    public User findByUsernameOrEmail(String username){
+
+        return this.repository.findOneByEmailOrName(username,username);
+
+    }
+    
+
 }
