@@ -11,6 +11,6 @@ public interface FeedNodeService extends GenericService<FeedNode> {
     
     boolean feedNodeExists(FeedNode feed);
 
-    
+    FeedNode findTopByUidAndPlatform(String uid, Platform platform);
     
 }

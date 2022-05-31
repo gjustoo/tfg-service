@@ -12,6 +12,6 @@ public interface FeedNodeRepository extends GenericRepository<FeedNode> {
 
     List<FeedNode> findAllByPlatform(Platform platform);
 
-    FeedNode findOneByUidAndPlatform(String uid, Platform platform);
+    FeedNode findTopByUidAndPlatform(String uid, Platform platform);
 
 }

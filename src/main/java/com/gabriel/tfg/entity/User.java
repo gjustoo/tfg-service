@@ -8,14 +8,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import org.json.JSONObject;
-
+import kong.unirest.json.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,19 +35,31 @@ public class User extends GenericEntity<User> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String name;
+    @Column(unique = true)
     private String email;
     private String passwd;
 
+    @Column(name = "pfp", unique = false, nullable = true, length = 100000)
+    private byte[] pfp;
+    
+    private String pfpType;
+
+    @Column(name = "banner", unique = false, nullable = true, length = 100000)
+    private byte[] banner;
+    
+    private String bannerType;
+
     private LocalDateTime creationDate;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.ALL })
     private List<User> following;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.ALL })
     private List<FeedNode> followingNodes;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.ALL })
     private List<Post> likedPosts;
 
     public List<FeedNode> getAllNodes() {
@@ -61,12 +74,13 @@ public class User extends GenericEntity<User> {
         return new ArrayList<FeedNode>(result);
     }
 
-    public JSONObject getJson() {
+    public JSONObject toResponse() {
         JSONObject result = new JSONObject();
         result.put("username", this.name);
         result.put("email", this.email);
         result.put("creation_date", this.creationDate);
-        result.put("formatted_date", this.creationDate.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault()));
+        result.put("formatted_date", this.creationDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault())
+                + " " + this.creationDate.getYear());
         result.put("users_following", this.following.size());
         result.put("pages_following", this.followingNodes.size());
         result.put("liked_posts_count", this.likedPosts.size());

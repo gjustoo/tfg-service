@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import kong.unirest.json.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,4 +41,16 @@ public class Platform extends GenericEntity<Platform> {
     private String clientId;
 
     private String clientSecret;
+
+    private String iconUrl;
+
+    public JSONObject getJson() {
+        JSONObject result = new JSONObject();
+        result.put("name", this.name);
+        result.put("url", this.url);
+        result.put("icon_url", this.iconUrl);
+
+        return result;
+    }
+
 }

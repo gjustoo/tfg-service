@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import kong.unirest.json.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,5 +31,16 @@ public class FeedNode extends GenericEntity<FeedNode> {
 
     @ManyToOne
     private Platform platform;
+
+    public JSONObject getJSON() {
+        JSONObject result = new JSONObject();
+        result.put("id", this.id);
+        result.put("uid", this.uid);
+        result.put("name", this.name);
+        result.put("platform", this.platform.getJson());
+
+        return result;
+
+    }
 
 }

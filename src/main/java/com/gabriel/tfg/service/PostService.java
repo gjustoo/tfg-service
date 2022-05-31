@@ -18,5 +18,6 @@ public interface PostService extends GenericService<Post> {
 
     List<Post> findAllBetweenDatesAndFeedNodeIn(LocalDateTime start, LocalDateTime end, List<FeedNode> nodes);
 
+    public List<Post> findAllBetweenDatesAndFeedNodeIn(LocalDateTime start, LocalDateTime end, List<FeedNode> nodes,int page);
 
 }

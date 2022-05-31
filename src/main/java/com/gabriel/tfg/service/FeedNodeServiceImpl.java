@@ -28,10 +28,14 @@ public class FeedNodeServiceImpl extends GenericServiceImpl<FeedNode> implements
     @Override
     public boolean feedNodeExists(FeedNode feed) {
 
-        FeedNode feedNode = repository.findOneByUidAndPlatform(feed.getUid(), feed.getPlatform());
+        FeedNode feedNode = repository.findTopByUidAndPlatform(feed.getUid(), feed.getPlatform());
 
+        return feedNode != null;
+    }
 
-        return feedNode != null; 
+    @Override
+    public FeedNode findTopByUidAndPlatform(String uid, Platform platform) {
+        return repository.findTopByUidAndPlatform(uid, platform);
     }
 
 }
